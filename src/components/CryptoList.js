@@ -1,24 +1,36 @@
-import React from 'react';
-import { Container, Typography, List, ListItem, ListItemText } from '@mui/material';
-
-const cryptoData = [
-  // Replace this mock data with your actual API data
-  { id: 1, name: 'Bitcoin', symbol: 'BTC', price: 45000 },
-  { id: 2, name: 'Ethereum', symbol: 'ETH', price: 3000 },
-];
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function CryptoList() {
+  const [cryptocurrencies, setCryptocurrencies] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/cryptocurrencies', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setCryptocurrencies(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching cryptocurrencies:', error);
+      });
+  }, []);
+
   return (
-    <Container>
-      <Typography variant="h4">Cryptocurrencies</Typography>
-      <List>
-        {cryptoData.map((crypto) => (
-          <ListItem button key={crypto.id}>
-            <ListItemText primary={`${crypto.name} (${crypto.symbol})`} secondary={`Price: $${crypto.price}`} />
-          </ListItem>
-        ))}
-      </List>
-    </Container>
+    <div>
+      {cryptocurrencies.map((crypto) => (
+        <div key={crypto.id}>
+          <Link to={`/crypto/${crypto.id}`}>
+            <h3>{crypto.name}</h3>
+          </Link>
+          <p>Price: ${crypto.price}</p>
+        </div>
+      ))}
+    </div>
   );
 }
 
