@@ -1,8 +1,21 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
-    mode: 'light', // Change this to 'dark' for dark mode
+    mode: "dark",
+    primary: {
+      main: "#BB86FC",
+    },
+    secondary: {
+      main: "#03DAC6",
+    },
+    background: {
+      default: "#121212",
+      paper: "#1E1E1E",
+    },
+  },
+  typography: {
+    fontFamily: "Roboto, sans-serif",
   },
 });
 
